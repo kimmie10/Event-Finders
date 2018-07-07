@@ -26,16 +26,22 @@ $("#add-city").on("click", function(event) {
             console.log(results.events[0]);
             console.log(results.events[0].logo.url);
 
+            var header = $("<h1>")
+                header.text("Local Events");
+                
             for (var j = 0; j < 3; j++) {
                 var eventDiv = $("<div>");
         
                 var imgURL = results.events[j].logo.url;
                 var description = results.events[j].description.text
+
                 var image = $("<img>");
                 image.attr("src", imgURL);
+
                 var details = $("<p>");
                 details.text(description)
         
+                eventDiv.append(header);
                 eventDiv.append(image);
                 eventDiv.append(details);
                 $("#events-view").prepend(eventDiv);
