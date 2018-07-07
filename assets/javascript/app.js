@@ -6,7 +6,10 @@ $("#add-city").on("click", function(event) {
     $("#events-view").empty();
     
     // Add API functions here
+let APIKey = "6bf5141aa280ab7faa386b3fe5d1454f";
+let cityWeather = 
 
+let queryURL = "https:// api.openweathermap.org/data/2.5/find?q=London&units=imperial"
     // EventBrite API
     function eventBriteInfo() {
 
