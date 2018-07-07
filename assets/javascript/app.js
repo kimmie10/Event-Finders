@@ -12,7 +12,7 @@ $("#add-city").on("click", function(event) {
 
         // Use location var with $("#city-input") submission
         var location = $("#city-input").val().trim();
-        var queryURL = "https://www.eventbriteapi.com/v3/events/search/?token=BFAWO7WOGSFYXUZUJBHL&location.address=" + location;
+        var queryURL = "https://www.eventbriteapi.com/v3/events/search/?token=SZDJEP44NSPTC2RGIFBQ&location.address=" + location;
     
         // AJAX Call
         $.ajax({
