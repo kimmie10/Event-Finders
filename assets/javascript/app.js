@@ -3,7 +3,7 @@ $("#add-city").on("click", function (event) {
     event.preventDefault();
 
     // Clears Previous Search
-    $("#events-view").empty();
+    $("#city-input").val("");
 
     // Weather API function
     function weather() {
