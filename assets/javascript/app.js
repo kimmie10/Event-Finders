@@ -3,31 +3,16 @@ $("#add-city").on("click", function (event) {
     event.preventDefault();
 
     // Clears Previous Search
-    $("#city-input").val("");
-
-    // Weather API function
-    function weather() {
-
-
-        let APIKey = "6bf5141aa280ab7faa386b3fe5d1454f";
-        let cityWeather = this.value;
-
-        let queryURL = "https:// api.openweathermap.org/data/2.5/find?q=" + cityWeather + "&units=imperial" + APIKey;
-
-        // Ajax call
-        $.ajax({
-            url: queryURL,
-            method: "GET"
-        }).then(function(response){
-            let weatherResults = response;
-        })
-    }
+    $("#events-view").empty();
+    
+    // Add API functions here
+    
     // EventBrite API
     function eventBriteInfo() {
 
         // Use location var with $("#city-input") submission
         var location = $("#city-input").val().trim();
-        var queryURL = "https://www.eventbriteapi.com/v3/events/search/?token=SZDJEP44NSPTC2RGIFBQ&location.address=" + location;
+        var queryURL = "https://www.eventbriteapi.com/v3/events/search/?token=BFAWO7WOGSFYXUZUJBHL&location.address=" + location;
     
         // AJAX Call
         $.ajax({
@@ -67,3 +52,4 @@ $("#add-city").on("click", function (event) {
     //API Initializers (Call API functions below so that they will run on submit)
     eventBriteInfo();
 });
+
