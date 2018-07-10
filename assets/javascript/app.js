@@ -7,21 +7,22 @@ function weather() {
 
     let APIKey = "6bf5141aa280ab7faa386b3fe5d1454f";
     let cityWeather = $("#city-input").val().trim();
-    //console.log(cityWeather);
+    console.log(cityWeather);
 
-    let queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + cityWeather + "&type=accurate&units=imperial" + APIKey;
+    let queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + cityWeather + "&type=accurate&units=imperial&APPID=" + APIKey;
 
     // Ajax call
     $.ajax({
         url: queryURL,
         method: "GET"
     }).then(function (response) {
-        let weatherResults = response;
-
-        let weatherDiv = $("<div id='weather'>");
-        weatherDiv.append(weatherResults);
-        $("#weather").prepend(weatherDiv);
-
+        console.log(response);
+        $("#city").html("<h3>" + response.name + "</h3>");
+        $("#lowTemp").text("Low (F) " + response.main.temp_min);
+        $("#highTemp").text("High (F)" + response.main.temp_max);
+        $("#wind").text("Wind Speed: " + response.wind.speed);
+        $("#humidity").text("Humidity: " + response.main.humidity);
+        $("#weather").text(response.weather[0].description.toUpperCase());
     })
 }
 // EventBrite API
