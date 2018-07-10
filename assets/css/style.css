@@ -27,3 +27,7 @@ body{
     border-top:5px solid #3686a8;
     flex-shrink:0;
 }
+
+#map-view {
+    height: 400px;
+}
