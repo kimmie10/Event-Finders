@@ -3,9 +3,7 @@ html, body{
 }
 
 body{
-    font:normal 16px/1.6em 'Arial', 'Helvetica Neue', Helvetica, sans-serif;
-    display:flex;
-    flex-direction:column;
+    font: normal 16px/1.6em 'Arial', 'Helvetica Neue', Helvetica, sans-serif;
 }
 
 .jumbotron{
@@ -26,6 +24,15 @@ body{
     margin-top:20px;
     border-top:5px solid #3686a8;
     flex-shrink:0;
+}
+
+
+.currentWeather {
+    float: right;
+    margin-right: 100px;
+    background-color: lightskyblue;
+    padding: 20px;
+
 }
 
 #map-view {
