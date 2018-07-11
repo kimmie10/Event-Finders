@@ -1,6 +1,7 @@
 
 
 
+
 // Weather API function
 function weather() {
 
@@ -87,3 +88,5 @@ $(document).ready(function () {
     })
 
 })
+
+

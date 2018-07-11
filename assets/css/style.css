@@ -26,10 +26,15 @@ body{
     flex-shrink:0;
 }
 
+
 .currentWeather {
     float: right;
     margin-right: 100px;
     background-color: lightskyblue;
     padding: 20px;
 
+}
+
+#map-view {
+    height: 400px;
 }
