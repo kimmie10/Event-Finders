@@ -23,8 +23,7 @@ function weather() {
         const listArray = response.list;
         $("#city").html("<h3>" + response.city.name + "</h3>");
 
-        //for (let i = 0; i < listArray.length; i++) 
-        $.each(listArray, function (i, value) {
+        for (let i = 0; i < listArray.length; i++) {
             let weatherDiv = $("<div>");
             let day = ("<h4> " + response.list[i].dt_txt + "</h4>");
             let lowTemp = ("Low (F) " + response.list[i].main.temp_min);
@@ -32,13 +31,8 @@ function weather() {
             let wind = ("Wind Speed: " + response.list[i].wind.speed);
             let humidity = ("Humidity: " + response.list[i].main.humidity);
             //let weather = (response.list[i].weather[i].description.toUpperCase());
-console.log(day);
-            weatherDiv.append(day);
-            weatherDiv.append(lowTemp);
-            weatherDiv.append(highTemp);
-            weatherDiv.append(wind);
-            weatherDiv.append(humidity);
 
+            
 
 
             /*$("#lowTemp").text("Low (F) " + response.list[i].main.temp_min);
@@ -47,16 +41,20 @@ console.log(day);
             $("#humidity").text("Humidity: " + response.list[i].main.humidity);*/
 
             const weatherArray = response.list[i].weather;
+            for (let k = 0; k < weatherArray.length; k++) {
+                let weather = (response.list[i].weather[k].description.toUpperCase());
 
-            let k = 0;
-            let weather = (response.list[i].weather[k].description.toUpperCase());
-            //for (let k = 0; k < weatherArray.length; k++)
-            $.each(weatherArray, function (k, value) {
-                weather = value;//(response.list[i].weather[k].description.toUpperCase());
                 weatherDiv.append(weather);
-            })
 
-        })
+            }
+            weatherDiv.append(day);
+            weatherDiv.append(lowTemp);
+            weatherDiv.append(highTemp);
+            weatherDiv.append(wind);
+            weatherDiv.append(humidity);
+            
+
+        }
         $(".daysWeather").show();
     });
 
