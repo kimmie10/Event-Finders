@@ -30,6 +30,7 @@ body{
 .daysWeather {
     float: right;
     margin-right: 100px;
+    margin-left: 100px;
     background-color: lightskyblue;
     padding: 20px;
 
@@ -44,6 +45,7 @@ body{
 
 .weatherOnly {
     font-size: 10px;
+    float: left;
 }
 
 
