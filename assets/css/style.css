@@ -26,24 +26,35 @@ body{
 }
 
 #banner{
-    position:relative;
+    width:100%;
+    margin:20px 0;
 }
 
 #main-footer{
     color:#5e7c8d;
     font-size:x-small;
     text-align:center;
+    margin-top:50px;
+}
+
+#main-header{
+    position:relative;
 }
 
 #map-view {
-    position: relative;
-    width: 90%;
+    width: 100%;
     height: 400px;
+    margin: auto;
 }
 
 #search-bar{
-    position:absolute;
-    top:600px;
-    margin:0 75px;
-    width:1000px;
+    top:-120px;
+    width:90%;
+    z-index:2;
 }
+
+@media only screen and (max-width:768px){
+    #search-bar{
+        top:-80px;
+    }
+  }
