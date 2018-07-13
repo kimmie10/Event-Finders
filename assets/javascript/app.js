@@ -63,14 +63,14 @@ function weather() {
         const listArray = response.list;
         $("#city").html("<h3>" + response.city.name + "</h3>");
 
-       
+
         $.each(listArray, function (i, value) {
             let weatherDiv = $("<div class='weatherOnly'>");
             let day = $("<div class='d'>").text(response.list[i].dt_txt);
             let temp = $("<div class='t'>").text("Temp (F): " + response.list[i].main.temp);
             let wind = $("<div class='w'>").text("Wind Speed: " + response.list[i].wind.speed);
             let humidity = $("<div class='h'>").text("Humidity: " + response.list[i].main.humidity);
-            
+
             weatherDiv.append(day);
             weatherDiv.append(temp);
             weatherDiv.append(wind);
@@ -95,17 +95,16 @@ function weather() {
         });
         $(".daysWeather").show();
     });
-        
-        cityLongitude = response.coord.lon;
-        console.log("longitude: " + cityLongitude);
-        cityLatitude = response.coord.lat;
-        console.log("latitude: " + cityLatitude);
-        map.panTo(new L.LatLng(cityLatitude, cityLongitude));
-        //var cityMarker = L.marker([cityLatitude, cityLongitude]).addTo(map);
 
-    })
+    cityLongitude = response.coord.lon;
+    console.log("longitude: " + cityLongitude);
+    cityLatitude = response.coord.lat;
+    console.log("latitude: " + cityLatitude);
+    map.panTo(new L.LatLng(cityLatitude, cityLongitude));
+    //var cityMarker = L.marker([cityLatitude, cityLongitude]).addTo(map);
 
 }
+
 
 
 // EventBrite API
@@ -236,8 +235,7 @@ $(document).ready(function () {
         $("#city-input").val(" ");
     })
 
-    });
+});
 
-})
 
 
