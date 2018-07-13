@@ -40,12 +40,11 @@ function weather() {
 
             $.each(weatherArray, function (k, value) {
                 let weatherDes = $("<div class='description'>").text(response.list[i].weather[k].description.toUpperCase());
-                let ic = $("<div class='pic'>").text(response.list[i].weather[k].icon);
-                let src = $("<img src= 'http://openweathermap.org/img/w/ + {ic} + .png'>");
+                let image = $("<img>").attr("src", "http://openweathermap.org/img/w/" + weatherArray[k].icon + ".png")
                 weatherDiv.append(weatherDes);
-                weatherDes.append(src);
+                weatherDes.append(image);
                 console.log(weatherDes);
-                console.log(ic);
+                console.log(weatherArray[k]);
             });
             $("#city").append(weatherDiv);
             console.log(day);
