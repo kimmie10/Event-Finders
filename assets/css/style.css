@@ -36,7 +36,10 @@ body{
 }
 
 #map-view {
+    position: relative;
+    width: 90%;
     height: 400px;
+    
 }
 
 .weatherOnly {
