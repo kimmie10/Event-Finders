@@ -23,40 +23,37 @@ function weather() {
         const listArray = response.list;
         $("#city").html("<h3>" + response.city.name + "</h3>");
 
-        //for (let i = 0; i < listArray.length; i++) 
+       
         $.each(listArray, function (i, value) {
-            let weatherDiv = $("<div>");
-            let day = ("<h4> " + response.list[i].dt_txt + "</h4>");
-            let lowTemp = ("Low (F) " + response.list[i].main.temp_min);
-            let highTemp = ("High (F)" + response.list[i].main.temp_max);
-            let wind = ("Wind Speed: " + response.list[i].wind.speed);
-            let humidity = ("Humidity: " + response.list[i].main.humidity);
-            //let weather = (response.list[i].weather[i].description.toUpperCase());
-console.log(day);
+            let weatherDiv = $("<div class='weatherOnly'>");
+            let day = $("<div class='d'>").text(response.list[i].dt_txt);
+            let temp = $("<div class='t'>").text("Temp (F): " + response.list[i].main.temp);
+            let wind = $("<div class='w'>").text("Wind Speed: " + response.list[i].wind.speed);
+            let humidity = $("<div class='h'>").text("Humidity: " + response.list[i].main.humidity);
+            
             weatherDiv.append(day);
-            weatherDiv.append(lowTemp);
-            weatherDiv.append(highTemp);
+            weatherDiv.append(temp);
             weatherDiv.append(wind);
             weatherDiv.append(humidity);
 
-
-
-            /*$("#lowTemp").text("Low (F) " + response.list[i].main.temp_min);
-            $("#highTemp").text("High (F)" + response.list[i].main.temp_max);
-            $("#wind").text("Wind Speed: " + response.list[i].wind.speed);
-            $("#humidity").text("Humidity: " + response.list[i].main.humidity);*/
-
             const weatherArray = response.list[i].weather;
 
-            let k = 0;
-            let weather = (response.list[i].weather[k].description.toUpperCase());
-            //for (let k = 0; k < weatherArray.length; k++)
             $.each(weatherArray, function (k, value) {
-                weather = value;//(response.list[i].weather[k].description.toUpperCase());
-                weatherDiv.append(weather);
-            })
+                let weatherDes = $("<div class='description'>").text(response.list[i].weather[k].description.toUpperCase());
+                let ic = $("<div class='pic'>").text(response.list[i].weather[k].icon);
+                let src = $("<img src= 'http://openweathermap.org/img/w/ + {ic} + .png'>");
+                weatherDiv.append(weatherDes);
+                weatherDes.append(src);
+                console.log(weatherDes);
+                console.log(ic);
+            });
+            $("#city").append(weatherDiv);
+            console.log(day);
+            console.log(temp);
+            console.log(wind);
+            console.log(humidity);
 
-        })
+        });
         $(".daysWeather").show();
     });
 
@@ -90,7 +87,7 @@ function eventBriteInfo() {
             var eventDiv = $("<div>");
 
             var imgURL = results.events[j].logo.url;
-            var description = results.events[j].description.text
+            var description = results.events[j].description.text;
 
             var image = $("<img>");
             image.attr("src", imgURL);
@@ -126,7 +123,7 @@ $(document).ready(function () {
         } else {
             $("#forgot-city").show();
         }
-
+        //Clears input field after button click
         $("#city-input").val(" ");
     })
 

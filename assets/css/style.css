@@ -38,3 +38,9 @@ body{
 #map-view {
     height: 400px;
 }
+
+.weatherOnly {
+    font-size: 10px;
+}
+
+
