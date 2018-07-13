@@ -45,9 +45,12 @@ function pinEvents(results) {
 function weather() {
     let APIKey = "6bf5141aa280ab7faa386b3fe5d1454f";
     let cityWeather = $("#city-input").val().trim();
-    //console.log(cityWeather);
 
-    let queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + cityWeather + "&type=accurate&units=imperial&APPID=" + APIKey;
+    cityWeather += ", US";
+    console.log(cityWeather);
+
+
+    let queryURL = "https://api.openweathermap.org/data/2.5/forecast?q=" + cityWeather + "&type=accurate&units=imperial&APPID=" + APIKey;
 
     // Ajax call
     $.ajax({
@@ -56,12 +59,43 @@ function weather() {
     }).then(function (response) {
         console.log(response);
 
-        $("#city").html("<h3>" + response.name + "</h3>");
-        $("#lowTemp").text("Low (F) " + response.main.temp_min);
-        $("#highTemp").text("High (F)" + response.main.temp_max);
-        $("#wind").text("Wind Speed: " + response.wind.speed);
-        $("#humidity").text("Humidity: " + response.main.humidity);
-        $("#weather").text(response.weather[0].description.toUpperCase());
+
+        const listArray = response.list;
+        $("#city").html("<h3>" + response.city.name + "</h3>");
+
+       
+        $.each(listArray, function (i, value) {
+            let weatherDiv = $("<div class='weatherOnly'>");
+            let day = $("<div class='d'>").text(response.list[i].dt_txt);
+            let temp = $("<div class='t'>").text("Temp (F): " + response.list[i].main.temp);
+            let wind = $("<div class='w'>").text("Wind Speed: " + response.list[i].wind.speed);
+            let humidity = $("<div class='h'>").text("Humidity: " + response.list[i].main.humidity);
+            
+            weatherDiv.append(day);
+            weatherDiv.append(temp);
+            weatherDiv.append(wind);
+            weatherDiv.append(humidity);
+
+            const weatherArray = response.list[i].weather;
+
+            $.each(weatherArray, function (k, value) {
+                let weatherDes = $("<div class='description'>").text(response.list[i].weather[k].description.toUpperCase());
+                let image = $("<img>").attr("src", "http://openweathermap.org/img/w/" + weatherArray[k].icon + ".png")
+                weatherDiv.append(weatherDes);
+                weatherDes.append(image);
+                console.log(weatherDes);
+                console.log(weatherArray[k]);
+            });
+            $("#city").append(weatherDiv);
+            console.log(day);
+            console.log(temp);
+            console.log(wind);
+            console.log(humidity);
+
+        });
+        $(".daysWeather").show();
+    });
+        
         cityLongitude = response.coord.lon;
         console.log("longitude: " + cityLongitude);
         cityLatitude = response.coord.lat;
@@ -70,7 +104,10 @@ function weather() {
         //var cityMarker = L.marker([cityLatitude, cityLongitude]).addTo(map);
 
     })
+
 }
+
+
 // EventBrite API
 function eventBriteInfo() {
 
@@ -99,13 +136,13 @@ function eventBriteInfo() {
             var eventDiv = $("<div>");
 
             var imgURL = results.events[j].logo.url;
-            var description = results.events[j].description.text
+            var description = results.events[j].description.text;
 
             var image = $("<img>");
             image.attr("src", imgURL);
 
             var details = $("<p>");
-            details.text(description)
+            details.text(description);
 
             eventDiv.append(header);
             eventDiv.append(image);
@@ -175,7 +212,9 @@ $(document).ready(function () {
     //hides our html for when user just clicks without input
     loadMap();
     $("#forgot-city").hide();
+    $(".daysWeather").hide();
     $("#add-city").on("click", function (event) {
+
         event.preventDefault();
 
         //keeps user from clicking button with no input
@@ -186,14 +225,19 @@ $(document).ready(function () {
             //cityInfo();
             eventBriteInfo();
             weather();
-            console.log("latitude " + cityLatitude + " longitude " + cityLongitude);
 
 
             $("#forgot-city").hide();
         } else {
             $("#forgot-city").show();
         }
+
+        //Clears input field after button click
+        $("#city-input").val(" ");
+    })
+
     });
+
 })
 
 

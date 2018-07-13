@@ -27,7 +27,7 @@ body{
 }
 
 
-.currentWeather {
+.daysWeather {
     float: right;
     margin-right: 100px;
     background-color: lightskyblue;
@@ -41,3 +41,9 @@ body{
     height: 400px;
     
 }
+
+.weatherOnly {
+    font-size: 10px;
+}
+
+
