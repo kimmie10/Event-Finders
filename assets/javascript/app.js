@@ -156,7 +156,7 @@ function eventBriteInfo() {
             address.append(localAddress);
 
             var clickMore = $("<a href>")
-            clickMore.text("See details...");
+            clickMore.text("See full event details...");
             clickMore.attr("id", "clickDetails");
             clickMore.attr("data-link", link);
 
