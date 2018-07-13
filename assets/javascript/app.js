@@ -94,18 +94,19 @@ function weather() {
 
         });
         $(".daysWeather").show();
-    });
-        
-        cityLongitude = response.coord.lon;
+
+        cityLongitude = response.city.coord.lon;
         console.log("longitude: " + cityLongitude);
-        cityLatitude = response.coord.lat;
+        cityLatitude = response.city.coord.lat;
         console.log("latitude: " + cityLatitude);
         map.panTo(new L.LatLng(cityLatitude, cityLongitude));
         //var cityMarker = L.marker([cityLatitude, cityLongitude]).addTo(map);
+    });
+        
+        
 
-    })
+    }
 
-}
 
 
 // EventBrite API
@@ -237,7 +238,5 @@ $(document).ready(function () {
     })
 
     });
-
-})
 
 
