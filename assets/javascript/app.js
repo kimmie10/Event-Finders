@@ -63,14 +63,14 @@ function weather() {
         const listArray = response.list;
         $("#city").html("<h3>" + response.city.name + "</h3>");
 
-       
+
         $.each(listArray, function (i, value) {
             let weatherDiv = $("<div class='weatherOnly'>");
             let day = $("<div class='d'>").text(response.list[i].dt_txt);
             let temp = $("<div class='t'>").text("Temp (F): " + response.list[i].main.temp);
             let wind = $("<div class='w'>").text("Wind Speed: " + response.list[i].wind.speed);
             let humidity = $("<div class='h'>").text("Humidity: " + response.list[i].main.humidity);
-            
+
             weatherDiv.append(day);
             weatherDiv.append(temp);
             weatherDiv.append(wind);
@@ -102,10 +102,11 @@ function weather() {
         map.panTo(new L.LatLng(cityLatitude, cityLongitude));
         //var cityMarker = L.marker([cityLatitude, cityLongitude]).addTo(map);
     });
-        
-        
 
-    }
+
+
+}
+
 
 
 
@@ -133,22 +134,51 @@ function eventBriteInfo() {
         var header = $("<h1>")
         header.text("Local Events");
 
-        for (var j = 0; j < 3; j++) {
+        for (var j = 0; j < 10; j++) {
             var eventDiv = $("<div>");
 
             var imgURL = results.events[j].logo.url;
+            var name = results.events[j].name.text;
             var description = results.events[j].description.text;
+            var category = results.events[j].category.name;
+            var localAddress = results.events[j].venue.address.localized_address_display;
+            var link = results.events[j].url;
 
             var image = $("<img>");
             image.attr("src", imgURL);
 
+            var title = $("<div>");
+            title.append(name);
+
+            var genre = $("<div>");
+            genre.append(category);
+
+            var address = $("<div>");
+            address.append(localAddress);
+
+            var clickMore = $("<a href>")
+            clickMore.text("See full event details...");
+            clickMore.attr("id", "clickDetails");
+            clickMore.attr("data-link", link);
+
             var details = $("<p>");
             details.text(description);
+            details.attr("id", "eventDetails");
 
             eventDiv.append(header);
             eventDiv.append(image);
+            eventDiv.append(title);
+            eventDiv.append(genre);
+            eventDiv.append(address);
+            eventDiv.append(clickMore);
             eventDiv.append(details);
+
             $("#events-view").prepend(eventDiv);
+
+            $("#clickDetails").on("click", function (event) {
+                event.preventDefault();
+                window.open($(this).attr("data-link"), '_blank');
+            })
         }
     });
 }
@@ -237,6 +267,6 @@ $(document).ready(function () {
         $("#city-input").val(" ");
     })
 
-    });
+});
 
 

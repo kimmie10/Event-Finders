@@ -1,4 +1,4 @@
-# Project1, Geo-Facts
+# Project1, Event Finders
 
 Members:
 Danny Nguyen, Kim Wood, Ramon Maramba, and Sabine Hollatz
