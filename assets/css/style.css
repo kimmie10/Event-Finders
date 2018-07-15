@@ -30,8 +30,22 @@ body{
     margin:20px 0;
 }
 
+#event-box{
+    text-align:center;
+    width:48%;
+    height:48%;
+    margin:10px;
+    padding:20px;
+    border: solid 1px #5e7c8d;
+}
+
 #events-view{
     text-align:center;
+}
+
+#logo{
+    height:15%;
+    width:15%;
 }
 
 #main-footer{
