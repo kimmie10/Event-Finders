@@ -1,4 +1,6 @@
-var numEvents = 10;
+// Global Variables
+
+var numEvents = 20;
 
 var cityLongitude = 0;
 var cityLatitude = 0;
@@ -15,8 +17,8 @@ var map = L.map('map-view', {
 
 function pinEvents(results) {
     // pinning events to map
-    console.log("results from pinEvents() ");
-    console.log(results);
+    //console.log("results from pinEvents() ");
+    //console.log(results);
     var longToCompare = [];
     for (var i = 0; i < numEvents; i++) {
         if (results.events[i].venue.name) {
@@ -25,19 +27,18 @@ function pinEvents(results) {
             venue_Name = results.events[i].name.text;
         }
         event_Longitude = parseFloat(results.events[i].venue.longitude);
-        console.log("long before fix: " + event_Longitude);
+        //console.log("long before fix: " + event_Longitude);
         event_Longitude = event_Longitude.toFixed(4);
-        console.log("venue_Name: " + venue_Name);
+        //console.log("venue_Name: " + venue_Name);
         if (longToCompare.includes(event_Longitude)) {
             continue;
         } else {
-            console.log("after: " + event_Longitude);
+            //console.log("after: " + event_Longitude);
             event_Latitude = parseFloat(results.events[i].venue.latitude);
             event_Latitude = event_Latitude.toFixed(4);
             L.marker([event_Latitude, event_Longitude]).addTo(map).bindPopup(venue_Name);
             longToCompare.push(event_Longitude);
         }
-
     }
 }
 
@@ -49,7 +50,6 @@ function weather() {
     cityWeather += ", US";
     console.log(cityWeather);
 
-
     let queryURL = "https://api.openweathermap.org/data/2.5/forecast?q=" + cityWeather + "&type=accurate&units=imperial&APPID=" + APIKey;
 
     // Ajax call
@@ -59,53 +59,62 @@ function weather() {
     }).then(function (response) {
         console.log(response);
 
-
         const listArray = response.list;
         $("#city").html("<h3>" + response.city.name + "</h3>");
 
-
         $.each(listArray, function (i, value) {
-            let weatherDiv = $("<div class='weatherOnly'>");
-            let day = $("<div class='d'>").text(response.list[i].dt_txt);
-            let temp = $("<div class='t'>").text("Temp (F): " + response.list[i].main.temp);
-            let wind = $("<div class='w'>").text("Wind Speed: " + response.list[i].wind.speed);
-            let humidity = $("<div class='h'>").text("Humidity: " + response.list[i].main.humidity);
 
-            weatherDiv.append(day);
-            weatherDiv.append(temp);
-            weatherDiv.append(wind);
-            weatherDiv.append(humidity);
+            //if (day === )
 
-            const weatherArray = response.list[i].weather;
+            let time = listArray[i].dt_txt.slice(11)
+            console.log(time);
+            if (time === "00:00:00") {
+                let weatherDiv = $("<div class='weatherOnly'>");
+                let day = $("<div class='d'>").text(response.list[i].dt_txt.slice(0, 10));
+                //let date = new Date(day + "UTC");
+                //date.toString();
+                //console.log(date);
+                let temp = $("<div class='t'>").text("Temp (F): " + response.list[i].main.temp);
+                let wind = $("<div class='w'>").text("Wind Speed: " + response.list[i].wind.speed);
+                let humidity = $("<div class='h'>").text("Humidity: " + response.list[i].main.humidity);
 
-            $.each(weatherArray, function (k, value) {
-                let weatherDes = $("<div class='description'>").text(response.list[i].weather[k].description.toUpperCase());
-                let image = $("<img>").attr("src", "http://openweathermap.org/img/w/" + weatherArray[k].icon + ".png")
-                weatherDiv.append(weatherDes);
-                weatherDes.append(image);
-                console.log(weatherDes);
-                console.log(weatherArray[k]);
-            });
-            $("#city").append(weatherDiv);
-            console.log(day);
-            console.log(temp);
-            console.log(wind);
-            console.log(humidity);
+                weatherDiv.append(day);
+                weatherDiv.append(temp);
+                weatherDiv.append(wind);
+                weatherDiv.append(humidity);
+
+                const weatherArray = response.list[i].weather;
+
+                $.each(weatherArray, function (k, value) {
+                    let weatherDes = $("<div class='description'>").text(response.list[i].weather[k].description.toUpperCase());
+                    let image = $("<img>").attr("src", "http://openweathermap.org/img/w/" + weatherArray[k].icon + ".png")
+                    weatherDiv.append(weatherDes);
+                    weatherDes.append(image);
+                    //console.log(weatherDes);
+                    //console.log(weatherArray[k]);
+                });
+                $("#city").append(weatherDiv);
+                console.log(day);
+                console.log(temp);
+                console.log(wind);
+                console.log(humidity);
+            }
 
         });
         $(".daysWeather").show();
 
         cityLongitude = response.city.coord.lon;
-        console.log("longitude: " + cityLongitude);
+        //console.log("longitude: " + cityLongitude);
         cityLatitude = response.city.coord.lat;
-        console.log("latitude: " + cityLatitude);
+        //console.log("latitude: " + cityLatitude);
         map.panTo(new L.LatLng(cityLatitude, cityLongitude));
         //var cityMarker = L.marker([cityLatitude, cityLongitude]).addTo(map);
-
     });
 
 
+
 }
+
 
 
 
@@ -123,26 +132,22 @@ function eventBriteInfo() {
     }).then(function (response) {
 
         var results = response;
-        console.log(results);
-        console.log(results.events);
-        console.log(results.events[0]);
-        console.log(results.events[0].logo.url);
+        //console.log(results);
+        //console.log(results.events);
+        //console.log(results.events[0]);
+        //console.log(results.events[0].logo.url);
         pinEvents(results);
 
-
-        var header = $("<h1>")
-        header.text("Local Events");
-
-        for (var j = 0; j < 10; j++) {
-            var eventDiv = $("<div>");
+        for (var j = 0; j < 20; j++) {
+            var eventFig = $('<fig id="event-box">');
 
             var imgURL = results.events[j].logo.url;
             var name = results.events[j].name.text;
-            var description = results.events[j].description.text;
             var category = results.events[j].category.name;
+            var time = results.events[j].start.local;
             var localAddress = results.events[j].venue.address.localized_address_display;
             var link = results.events[j].url;
-
+    
             var image = $("<img>");
             image.attr("src", imgURL);
 
@@ -152,6 +157,11 @@ function eventBriteInfo() {
             var genre = $("<div>");
             genre.append(category);
 
+            var timeMoment = moment(time).format("dddd, MMMM Do YYYY, h:mm a");
+
+            var start = $("<div>");
+            start.append(time);
+
             var address = $("<div>");
             address.append(localAddress);
 
@@ -160,19 +170,14 @@ function eventBriteInfo() {
             clickMore.attr("id", "clickDetails");
             clickMore.attr("data-link", link);
 
-            var details = $("<p>");
-            details.text(description);
-            details.attr("id", "eventDetails");
+            eventFig.append(image);
+            eventFig.append(title);
+            eventFig.append(genre);
+            eventFig.append(timeMoment);
+            eventFig.append(address);
+            eventFig.append(clickMore);
 
-            eventDiv.append(header);
-            eventDiv.append(image);
-            eventDiv.append(title);
-            eventDiv.append(genre);
-            eventDiv.append(address);
-            eventDiv.append(clickMore);
-            eventDiv.append(details);
-
-            $("#events-view").prepend(eventDiv);
+            $("#events-view").prepend(eventFig);
             
             $("#clickDetails").on("click", function(event) {
                 event.preventDefault();
@@ -182,8 +187,7 @@ function eventBriteInfo() {
     });
 }
 
-
-//adds different view options, such as street map, satellite image or hybrid of both
+//Adds different view options, such as street map, satellite image or hybrid of both
 function loadMap() {
     //centers map to user position and pop's up there
     var baseMaps = {
@@ -238,6 +242,7 @@ function loadMap() {
     });
 } */
 
+// Initializers on Page Load Up
 $(document).ready(function () {
     //hides our html for when user just clicks without input
     loadMap();
@@ -253,9 +258,10 @@ $(document).ready(function () {
         if (userInput.length > 0) {
             //API Initializers (Call API functions below so that they will run on submit)
             //cityInfo();
+
+            $("#events-view").empty();
             eventBriteInfo();
             weather();
-
 
             $("#forgot-city").hide();
         } else {
@@ -265,6 +271,4 @@ $(document).ready(function () {
         //Clears input field after button click
         $("#city-input").val(" ");
     })
-
 });
-
