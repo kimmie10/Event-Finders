@@ -48,7 +48,7 @@ function weather() {
     let cityWeather = $("#city-input").val().trim();
 
     cityWeather += ", US";
-    console.log(cityWeather);
+    //console.log(cityWeather);
 
     let queryURL = "https://api.openweathermap.org/data/2.5/forecast?q=" + cityWeather + "&type=accurate&units=imperial&APPID=" + APIKey;
 
@@ -57,7 +57,7 @@ function weather() {
         url: queryURL,
         method: "GET"
     }).then(function (response) {
-        console.log(response);
+        //console.log(response);
 
         const listArray = response.list;
         $("#city").html("<h3>" + response.city.name + "</h3>");
@@ -67,7 +67,7 @@ function weather() {
             //if (day === )
 
             let time = listArray[i].dt_txt.slice(11)
-            console.log(time);
+            //console.log(time);
             if (time === "00:00:00") {
                 let weatherDiv = $("<div class='weatherOnly'>");
                 let day = $("<div class='d'>").text(response.list[i].dt_txt.slice(0, 10));
@@ -94,12 +94,11 @@ function weather() {
                     //console.log(weatherArray[k]);
                 });
                 $("#city").append(weatherDiv);
-                console.log(day);
-                console.log(temp);
-                console.log(wind);
-                console.log(humidity);
+                //console.log(day);
+                //console.log(temp);
+                //console.log(wind);
+                //console.log(humidity);
             }
-
         });
         $(".daysWeather").show();
 
@@ -110,13 +109,7 @@ function weather() {
         map.panTo(new L.LatLng(cityLatitude, cityLongitude));
         //var cityMarker = L.marker([cityLatitude, cityLongitude]).addTo(map);
     });
-
-
-
 }
-
-
-
 
 // EventBrite API
 function eventBriteInfo() {
@@ -132,10 +125,6 @@ function eventBriteInfo() {
     }).then(function (response) {
 
         var results = response;
-        //console.log(results);
-        //console.log(results.events);
-        //console.log(results.events[0]);
-        //console.log(results.events[0].logo.url);
         pinEvents(results);
 
         for (var j = 0; j < 20; j++) {
@@ -148,7 +137,7 @@ function eventBriteInfo() {
             var localAddress = results.events[j].venue.address.localized_address_display;
             var link = results.events[j].url;
     
-            var image = $("<img>");
+            var image = $('<img class="event-img">');
             image.attr("src", imgURL);
 
             var title = $("<div>");

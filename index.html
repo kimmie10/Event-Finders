@@ -21,22 +21,20 @@
         <div class="container" id="main-header">
             <img class="img-responsive" id="banner" src="assets/images/Banner.png" alt="Event Finders Banner">
             <div class="input-group mb-auto container" id="search-bar">
-                <input type="text" class="form-control" placeholder='Add destination by "city, state"' id="city-input">
+                <input type="text" class="form-control" placeholder="Find events by city and state..." id="city-input">
                 <div class="input-group-append">
                     <button class="btn btn-outline-secondary" type="button" id="add-city">Go!</button>
                 </div>
             </div>
         </div>
     </header>
-
-    <div class="daysWeather">
-        <div id="city"></div>
-    </div>
     
     <div class="container" id="main-content">
         <div id="forgot-city">Please add a valid city.</div>
+        <div class="daysWeather">
+            <div id="city"></div>
+        </div>
         <div id="map-view"></div>
-        <div id="city-info"></div>
         <div id="events-view" class="card-group"></div>
     </div>
 
