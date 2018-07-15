@@ -1,4 +1,6 @@
-var numEvents = 10;
+// Global Variables
+
+var numEvents = 20;
 
 var cityLongitude = 0;
 var cityLatitude = 0;
@@ -37,7 +39,6 @@ function pinEvents(results) {
             L.marker([event_Latitude, event_Longitude]).addTo(map).bindPopup(venue_Name);
             longToCompare.push(event_Longitude);
         }
-
     }
 }
 
@@ -49,7 +50,6 @@ function weather() {
     cityWeather += ", US";
     console.log(cityWeather);
 
-
     let queryURL = "https://api.openweathermap.org/data/2.5/forecast?q=" + cityWeather + "&type=accurate&units=imperial&APPID=" + APIKey;
 
     // Ajax call
@@ -59,10 +59,8 @@ function weather() {
     }).then(function (response) {
         console.log(response);
 
-
         const listArray = response.list;
         $("#city").html("<h3>" + response.city.name + "</h3>");
-
 
         $.each(listArray, function (i, value) {
             let weatherDiv = $("<div class='weatherOnly'>");
@@ -130,20 +128,16 @@ function eventBriteInfo() {
         console.log(results.events[0].logo.url);
         pinEvents(results);
 
-
-        var header = $("<h1>")
-        header.text("Local Events");
-
-        for (var j = 0; j < 10; j++) {
-            var eventDiv = $("<div>");
+        for (var j = 0; j < 20; j++) {
+            var eventFig = $('<fig id="event-box">');
 
             var imgURL = results.events[j].logo.url;
             var name = results.events[j].name.text;
-            var description = results.events[j].description.text;
             var category = results.events[j].category.name;
+            var time = results.events[j].start.local;
             var localAddress = results.events[j].venue.address.localized_address_display;
             var link = results.events[j].url;
-
+    
             var image = $("<img>");
             image.attr("src", imgURL);
 
@@ -153,6 +147,11 @@ function eventBriteInfo() {
             var genre = $("<div>");
             genre.append(category);
 
+            var timeMoment = moment(time).format("dddd, MMMM Do YYYY, h:mm a");
+
+            var start = $("<div>");
+            start.append(time);
+
             var address = $("<div>");
             address.append(localAddress);
 
@@ -161,21 +160,16 @@ function eventBriteInfo() {
             clickMore.attr("id", "clickDetails");
             clickMore.attr("data-link", link);
 
-            var details = $("<p>");
-            details.text(description);
-            details.attr("id", "eventDetails");
+            eventFig.append(image);
+            eventFig.append(title);
+            eventFig.append(genre);
+            eventFig.append(timeMoment);
+            eventFig.append(address);
+            eventFig.append(clickMore);
 
-            eventDiv.append(header);
-            eventDiv.append(image);
-            eventDiv.append(title);
-            eventDiv.append(genre);
-            eventDiv.append(address);
-            eventDiv.append(clickMore);
-            eventDiv.append(details);
-
-            $("#events-view").prepend(eventDiv);
-
-            $("#clickDetails").on("click", function (event) {
+            $("#events-view").prepend(eventFig);
+            
+            $("#clickDetails").on("click", function(event) {
                 event.preventDefault();
                 window.open($(this).attr("data-link"), '_blank');
             })
@@ -183,8 +177,7 @@ function eventBriteInfo() {
     });
 }
 
-
-//adds different view options, such as street map, satellite image or hybrid of both
+//Adds different view options, such as street map, satellite image or hybrid of both
 function loadMap() {
     //centers map to user position and pop's up there
     var baseMaps = {
@@ -239,6 +232,7 @@ function loadMap() {
     });
 } */
 
+// Initializers on Page Load Up
 $(document).ready(function () {
     //hides our html for when user just clicks without input
     loadMap();
@@ -254,9 +248,10 @@ $(document).ready(function () {
         if (userInput.length > 0) {
             //API Initializers (Call API functions below so that they will run on submit)
             //cityInfo();
+
+            $("#events-view").empty();
             eventBriteInfo();
             weather();
-
 
             $("#forgot-city").hide();
         } else {
@@ -266,7 +261,4 @@ $(document).ready(function () {
         //Clears input field after button click
         $("#city-input").val(" ");
     })
-
 });
-
-
