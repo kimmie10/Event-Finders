@@ -17,8 +17,8 @@ var map = L.map('map-view', {
 
 function pinEvents(results) {
     // pinning events to map
-    console.log("results from pinEvents() ");
-    console.log(results);
+    //console.log("results from pinEvents() ");
+    //console.log(results);
     var longToCompare = [];
     for (var i = 0; i < numEvents; i++) {
         if (results.events[i].venue.name) {
@@ -27,13 +27,13 @@ function pinEvents(results) {
             venue_Name = results.events[i].name.text;
         }
         event_Longitude = parseFloat(results.events[i].venue.longitude);
-        console.log("long before fix: " + event_Longitude);
+        //console.log("long before fix: " + event_Longitude);
         event_Longitude = event_Longitude.toFixed(4);
-        console.log("venue_Name: " + venue_Name);
+        //console.log("venue_Name: " + venue_Name);
         if (longToCompare.includes(event_Longitude)) {
             continue;
         } else {
-            console.log("after: " + event_Longitude);
+            //console.log("after: " + event_Longitude);
             event_Latitude = parseFloat(results.events[i].venue.latitude);
             event_Latitude = event_Latitude.toFixed(4);
             L.marker([event_Latitude, event_Longitude]).addTo(map).bindPopup(venue_Name);
@@ -63,45 +63,60 @@ function weather() {
         $("#city").html("<h3>" + response.city.name + "</h3>");
 
         $.each(listArray, function (i, value) {
-            let weatherDiv = $("<div class='weatherOnly'>");
-            let day = $("<div class='d'>").text(response.list[i].dt_txt);
-            let temp = $("<div class='t'>").text("Temp (F): " + response.list[i].main.temp);
-            let wind = $("<div class='w'>").text("Wind Speed: " + response.list[i].wind.speed);
-            let humidity = $("<div class='h'>").text("Humidity: " + response.list[i].main.humidity);
 
-            weatherDiv.append(day);
-            weatherDiv.append(temp);
-            weatherDiv.append(wind);
-            weatherDiv.append(humidity);
+            //if (day === )
 
-            const weatherArray = response.list[i].weather;
+            let time = listArray[i].dt_txt.slice(11)
+            console.log(time);
+            if (time === "00:00:00") {
+                let weatherDiv = $("<div class='weatherOnly'>");
+                let day = $("<div class='d'>").text(response.list[i].dt_txt.slice(0, 10));
+                //let date = new Date(day + "UTC");
+                //date.toString();
+                //console.log(date);
+                let temp = $("<div class='t'>").text("Temp (F): " + response.list[i].main.temp);
+                let wind = $("<div class='w'>").text("Wind Speed: " + response.list[i].wind.speed);
+                let humidity = $("<div class='h'>").text("Humidity: " + response.list[i].main.humidity);
 
-            $.each(weatherArray, function (k, value) {
-                let weatherDes = $("<div class='description'>").text(response.list[i].weather[k].description.toUpperCase());
-                let image = $("<img>").attr("src", "http://openweathermap.org/img/w/" + weatherArray[k].icon + ".png")
-                weatherDiv.append(weatherDes);
-                weatherDes.append(image);
-                console.log(weatherDes);
-                console.log(weatherArray[k]);
-            });
-            $("#city").append(weatherDiv);
-            console.log(day);
-            console.log(temp);
-            console.log(wind);
-            console.log(humidity);
+                weatherDiv.append(day);
+                weatherDiv.append(temp);
+                weatherDiv.append(wind);
+                weatherDiv.append(humidity);
+
+                const weatherArray = response.list[i].weather;
+
+                $.each(weatherArray, function (k, value) {
+                    let weatherDes = $("<div class='description'>").text(response.list[i].weather[k].description.toUpperCase());
+                    let image = $("<img>").attr("src", "http://openweathermap.org/img/w/" + weatherArray[k].icon + ".png")
+                    weatherDiv.append(weatherDes);
+                    weatherDes.append(image);
+                    //console.log(weatherDes);
+                    //console.log(weatherArray[k]);
+                });
+                $("#city").append(weatherDiv);
+                console.log(day);
+                console.log(temp);
+                console.log(wind);
+                console.log(humidity);
+            }
 
         });
         $(".daysWeather").show();
 
         cityLongitude = response.city.coord.lon;
-        console.log("longitude: " + cityLongitude);
+        //console.log("longitude: " + cityLongitude);
         cityLatitude = response.city.coord.lat;
-        console.log("latitude: " + cityLatitude);
+        //console.log("latitude: " + cityLatitude);
         map.panTo(new L.LatLng(cityLatitude, cityLongitude));
         //var cityMarker = L.marker([cityLatitude, cityLongitude]).addTo(map);
-
     });
+
+
+
 }
+
+
+
 
 // EventBrite API
 function eventBriteInfo() {
@@ -117,10 +132,10 @@ function eventBriteInfo() {
     }).then(function (response) {
 
         var results = response;
-        console.log(results);
-        console.log(results.events);
-        console.log(results.events[0]);
-        console.log(results.events[0].logo.url);
+        //console.log(results);
+        //console.log(results.events);
+        //console.log(results.events[0]);
+        //console.log(results.events[0].logo.url);
         pinEvents(results);
 
         for (var j = 0; j < 20; j++) {
