@@ -9,24 +9,20 @@ body{
 .container{
     width:100%;
     margin:auto;
-    flex:1 0 auto;
 }
 
 .daysWeather {
-    float: right;
-    margin: 0px 100px 20px;
-    background-color: lightskyblue;
-    padding: 10px;
+    padding:10px;
 }
 
 .weatherOnly {
-    font-size: 10px;
-    float: left;
+    font-size:10px;
+    float:left;
 }
 
 #banner{
     width:100%;
-    margin:20px 0;
+    margin:30px 0;
 }
 
 #event-box{
@@ -35,7 +31,7 @@ body{
     height:48%;
     margin:10px;
     padding:20px;
-    border: solid 1px #5e7c8d;
+    border:solid 1px #5e7c8d;
 }
 
 #events-view{
@@ -59,9 +55,9 @@ body{
 }
 
 #map-view {
-    width: 100%;
-    height: 400px;
-    margin: 20px 0;
+    width:100%;
+    height:400px;
+    margin:20px 0;
 }
 
 #search-bar{
@@ -70,8 +66,30 @@ body{
     z-index:2;
 }
 
+@media only screen and (max-width:990px){
+
+    #event-box{
+        text-align:center;
+        width:100%;
+        margin:0px;
+        padding:10px 0px;
+    }
+}
+
 @media only screen and (max-width:768px){
     #search-bar{
         top:-80px;
     }
-  }
+}
+
+@media only screen and (max-width:640px){
+    
+    .event-img{
+        width:270px;
+        margin-bottom:10px;
+    }
+
+    #banner{
+        margin-top:10px;
+    }
+}
