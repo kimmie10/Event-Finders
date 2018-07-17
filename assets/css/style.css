@@ -12,7 +12,10 @@ body{
 }
 
 .daysWeather {
-    padding:10px;
+    float: right;
+    margin-bottom: 20px;
+    background-color: lightskyblue;
+    padding: 10px;
 }
 
 .weatherOnly {
