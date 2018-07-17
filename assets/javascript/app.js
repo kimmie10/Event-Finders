@@ -1,13 +1,9 @@
 // Global Variables
-
 var numEvents = 20;
-
 var cityLongitude = 0;
 var cityLatitude = 0;
 var event_Longitude = 0;
 var event_Latitude = 0;
-var venue_Name = "";
-
 var globalMapLayer = MQ.mapLayer();
 var map = L.map('map-view', {
     layers: globalMapLayer,
@@ -15,28 +11,25 @@ var map = L.map('map-view', {
     zoom: 12
 });
 
+// pinning events to map
 function pinEvents(results) {
-    // pinning events to map
-    //console.log("results from pinEvents() ");
-    //console.log(results);
     var longToCompare = [];
+    var venue_Name = "";
     for (var i = 0; i < numEvents; i++) {
         if (results.events[i].venue.name) {
             venue_Name = results.events[i].venue.name;
         } else {
             venue_Name = results.events[i].name.text;
         }
+        var venue_name_short = venue_Name.split(" ").join("");
         event_Longitude = parseFloat(results.events[i].venue.longitude);
-        //console.log("long before fix: " + event_Longitude);
         event_Longitude = event_Longitude.toFixed(4);
-        //console.log("venue_Name: " + venue_Name);
         if (longToCompare.includes(event_Longitude)) {
             continue;
         } else {
-            //console.log("after: " + event_Longitude);
             event_Latitude = parseFloat(results.events[i].venue.latitude);
             event_Latitude = event_Latitude.toFixed(4);
-            L.marker([event_Latitude, event_Longitude]).addTo(map).bindPopup(venue_Name);
+            L.marker([event_Latitude, event_Longitude]).addTo(map).bindPopup(venue_Name + '<br/><br/><button type="button" class="btn btn-outline-success btn-sm btn-block" id="pin_button" data="' + venue_name_short + '">Go to Event</button>');
             longToCompare.push(event_Longitude);
         }
     }
@@ -103,11 +96,9 @@ function weather() {
         $(".daysWeather").show();
 
         cityLongitude = response.city.coord.lon;
-        //console.log("longitude: " + cityLongitude);
         cityLatitude = response.city.coord.lat;
-        //console.log("latitude: " + cityLatitude);
         map.panTo(new L.LatLng(cityLatitude, cityLongitude));
-        //var cityMarker = L.marker([cityLatitude, cityLongitude]).addTo(map);
+
     });
 }
 
@@ -123,20 +114,49 @@ function eventBriteInfo() {
         url: queryURL,
         method: "GET"
     }).then(function (response) {
-
         var results = response;
         pinEvents(results);
 
         for (var j = 0; j < 20; j++) {
-            var eventFig = $('<fig id="event-box">');
+            var venueName;
+            var venueID;
+            if (results.events[j].venue.name) {
+                venueName = results.events[j].venue.name;
+                venueID = venueName.split(" ").join("");
+            } else {
+                venueName = results.events[j].name.text;
+                venueID = venueName.split(" ").join("");
+            }
+            var eventFig = $('<fig class="event-box" id="' + venueID + '">');
+            
+            // if statements ensure that previous elements are defined before appending
+            var imgURL;
+            if(results.events[j].logo) {
+                imgURL = results.events[j].logo.url;
+            }
 
-            var imgURL = results.events[j].logo.url;
-            var name = results.events[j].name.text;
-            var category = results.events[j].category.name;
-            var time = results.events[j].start.local;
-            var localAddress = results.events[j].venue.address.localized_address_display;
+            var name;
+            if(results.events[j].name) {
+              name  = results.events[j].name.text;
+            }
+
+            var category;
+            if (results.events[j].category) {
+                category = results.events[j].category.name;
+            }
+            
+            var time;
+            if (results.events[j].start) {
+                time = results.events[j].start.local;
+            }
+            
+            var localAddress;
+            if (results.events[j].venue.address) {
+                localAddress = results.events[j].venue.address.localized_address_display;
+            }
+
             var link = results.events[j].url;
-    
+
             var image = $('<img class="event-img">');
             image.attr("src", imgURL);
 
@@ -151,6 +171,11 @@ function eventBriteInfo() {
             var start = $("<div>");
             start.append(time);
 
+            var venue = $("<div>");
+            if (results.events[j].venue.name) {
+                venue.append(venueName);
+            };
+
             var address = $("<div>");
             address.append(localAddress);
 
@@ -163,12 +188,13 @@ function eventBriteInfo() {
             eventFig.append(title);
             eventFig.append(genre);
             eventFig.append(timeMoment);
+            eventFig.append(venue);
             eventFig.append(address);
             eventFig.append(clickMore);
 
             $("#events-view").prepend(eventFig);
-            
-            $("#clickDetails").on("click", function(event) {
+
+            $("#clickDetails").on("click", function (event) {
                 event.preventDefault();
                 window.open($(this).attr("data-link"), '_blank');
             })
@@ -215,32 +241,23 @@ function loadMap() {
     }
 }
 
-/* function cityInfo() {
-    console.log("inside cityInfo");
-    var city = $("#city-input").val().trim();
-    var queryURL = "https://api.teleport.org/api/cities/?search=" + city;
-
-    // AJAX Call
-    $.ajax({
-        url: queryURL,
-        method: "GET"
-    }).then(function (response) {
-
-        console.log("cityInfo:");
-        console.log(response);
-    });
-} */
-
 // Initializers on Page Load Up
 $(document).ready(function () {
     //hides our html for when user just clicks without input
     loadMap();
     $("#forgot-city").hide();
     $(".daysWeather").hide();
-    $("#add-city").on("click", function (event) {
-
+    //$(document).on("click keypress", "#add-city", function (event) {
+    var input = document.getElementById('city-input');
+    input.addEventListener("keyup", function(event) {
         event.preventDefault();
-
+        if (event.keyCode === 13) {
+            document.getElementById("add-city").click();
+        }
+    })
+    
+    $(document).on("click keyup", "#add-city", function(event) {
+        event.preventDefault();
         //keeps user from clicking button with no input
         let userInput = $("#city-input").val().trim();
 
@@ -259,5 +276,16 @@ $(document).ready(function () {
 
         //Clears input field after button click
         $("#city-input").val(" ");
+        var view = document.getElementById('map-view');
+        view.scrollIntoView();
     })
+
+    $(document).on("click", "#pin_button", function (event) {
+        event.preventDefault();
+        var venueID = $(this).attr('data');
+        if (document.getElementById(venueID)) {
+            var eventHTML = document.getElementById(venueID);
+            eventHTML.scrollIntoView();
+        }
+    });
 });
