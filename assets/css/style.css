@@ -2,29 +2,98 @@ html, body{
     height:100%;
 }
 
-body{
-    font:normal 16px/1.6em 'Arial', 'Helvetica Neue', Helvetica, sans-serif;
-    display:flex;
-    flex-direction:column;
-}
-
-h1{
-    text-align:center;
+body {
+    background-color: rgb(246, 250, 252);
 }
 .container{
-    width:960px;
+    width:100%;
     margin:auto;
-    overflow:auto;
-    flex:1 0 auto;
+}
+
+.daysWeather {
+    float: right;
+    margin-bottom: 20px;
+    background-color: lightskyblue;
+    padding: 10px;
+    width: 100%;
+}
+
+.weatherOnly {
+    font-size:10px;
+    float:left;
+}
+
+#banner{
+    width:100%;
+    margin:30px 0;
+}
+
+.event-box{
+    box-sizing: border-box;
+    text-align:center;
+    width:48%;
+    height:48%;
+    margin:10px;
+    padding:20px;
+    border:solid 1px #5e7c8d;
+}
+
+#events-view{
+    text-align:center;
+}
+
+#logo{
+    height:15%;
+    width:15%;
 }
 
 #main-footer{
-    background-color:#666666;
-    color:white;
+    color:#5e7c8d;
     font-size:x-small;
     text-align:center;
-    padding:15px 0;
-    margin-top:20px;
-    border-top:5px solid #3686a8;
-    flex-shrink:0;
+    margin-top:50px;
+}
+
+#main-header{
+    position:relative;
+}
+
+#map-view {
+    width:100%;
+    height:400px;
+    margin:20px 0;
+}
+
+#search-bar{
+    top:-120px;
+    width:90%;
+    z-index:2;
+}
+
+@media only screen and (max-width:990px){
+
+    .event-box{
+        text-align:center;
+        width:100%;
+        margin:0px;
+        padding:10px 0px;
+    }
+}
+
+@media only screen and (max-width:768px){
+    #search-bar{
+        top:-80px;
+    }
+}
+
+@media only screen and (max-width:640px){
+    
+    .event-img{
+        width:270px;
+        margin-bottom:10px;
+    }
+
+    #banner{
+        margin-top:10px;
+    }
 }
