@@ -41,7 +41,7 @@ function weather() {
     let cityWeather = $("#city-input").val().trim();
 
     cityWeather += ", US";
-    //console.log(cityWeather);
+    console.log(cityWeather);
 
     let queryURL = "https://api.openweathermap.org/data/2.5/forecast?q=" + cityWeather + "&type=accurate&units=imperial&APPID=" + APIKey;
 
@@ -50,17 +50,20 @@ function weather() {
         url: queryURL,
         method: "GET"
     }).then(function (response) {
-        //console.log(response);
+        console.log(response);
 
         const listArray = response.list;
         $("#city").html("<h3>" + response.city.name + "</h3>");
 
+        //loops over response from listArray and pulls each day of weather
         $.each(listArray, function (i, value) {
 
             //if (day === )
-
+            // slices listArry in order to get only five days instead of 5 days with every 3 hrs 
             let time = listArray[i].dt_txt.slice(11)
             //console.log(time);
+
+            //chooses midnight as time to display to account for UTC 7 hr difference
             if (time === "00:00:00") {
                 let weatherDiv = $("<div class='weatherOnly'>");
                 let day = $("<div class='d'>").text(response.list[i].dt_txt.slice(0, 10));
@@ -78,19 +81,16 @@ function weather() {
 
                 const weatherArray = response.list[i].weather;
 
+                //loops over weatherArray which is inside listArray to get description and icon of weather for day displayed
                 $.each(weatherArray, function (k, value) {
                     let weatherDes = $("<div class='description'>").text(response.list[i].weather[k].description.toUpperCase());
                     let image = $("<img>").attr("src", "http://openweathermap.org/img/w/" + weatherArray[k].icon + ".png")
                     weatherDiv.append(weatherDes);
                     weatherDes.append(image);
-                    //console.log(weatherDes);
-                    //console.log(weatherArray[k]);
+
                 });
                 $("#city").append(weatherDiv);
-                //console.log(day);
-                //console.log(temp);
-                //console.log(wind);
-                //console.log(humidity);
+
             }
         });
         $(".daysWeather").show();
