@@ -1,4 +1,4 @@
-# Project1, Event Finders
+# Event Finders
 
 Members:
 Danny Nguyen, Kim Wood, Ramon Maramba, and Sabine Hollatz
